@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nasr</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<nav>
+  <div class="brand"><a href="/">nasr</a></div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+</header>
+
+<main class="site-main">
+<a class="back" href="/">&larr; back</a>
+<article id="photo"></article>
+</main>
+
+<script>
+function parseMd(raw){
+  const lines = raw.trim().split('\n');
+  let title = lines[0].replace(/^#\s*/, '');
+  let meta = lines[1] || '';
+  let body = lines.slice(2).join('\n').trim();
+  return { title, meta, body };
+}
+
+async function init(){
+  const id = new URLSearchParams(location.search).get('id') || 'photo1';
+  const el = document.getElementById('photo');
+  try {
+    const res = await fetch(`photos/${id}.md`);
+    if (!res.ok) throw new Error('not found');
+    const { title, meta, body } = parseMd(await res.text());
+    document.title = title + ' - nasr';
+    el.innerHTML = `
+      <img src="images/${id}-full.jpg" alt="${title}" style="max-width:100%;border:1px solid rgba(240,246,240,.25);margin-bottom:1.5rem">
+      <h1>${title}</h1>
+      <span class="meta">${meta}</span>
+      ${body.split('\n').filter(l => l.trim()).map(p => `<p>${p}</p>`).join('')}
+    `;
+  } catch (e) {
+    el.innerHTML = `<p>Not found.</p>`;
+  }
+}
+init();
+</script>
+
+</body>
+</html>

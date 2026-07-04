@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nasr</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<nav>
+  <div class="brand"><a href="/">nasr</a></div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+</header>
+
+<main class="site-main">
+<h1>devlog</h1>
+<p class="tagline">First Principle Thinking &mdash; making sense of originality in a heavily monolithic sector, [Technology]. <br> by Nur Asri bin Bujang</p>
+<section>
+  <h2 class="section-label">Topics</h2>
+  <dl class="topics-list">
+    <dt class="topic-name"><a href="blog.html?topic=philosophy">philosophy</a></dt>
+    <dd class="topic-desc">first principles, thinking, understanding</dd>
+    <dt class="topic-name"><a href="blog.html?topic=technology">technology</a></dt>
+    <dd class="topic-desc">AI, software, tools, building</dd>
+    <dt class="topic-name"><a href="blog.html?topic=culture">culture</a></dt>
+    <dd class="topic-desc">society, identity, meaning</dd>
+    <dt class="topic-name"><a href="blog.html?topic=devlog">devlog</a></dt>
+    <dd class="topic-desc">personal notes, process, reflection</dd>
+  </dl>
+  <p style="margin-top:.5rem"><a href="blog.html" class="back" style="font-size:.8rem">&rarr; all posts</a></p>
+</section>
+
+<section style="margin-top:2.5rem">
+  <h2 class="section-label">Photos</h2>
+  <div class="photo-grid" id="photos-list"></div>
+</section>
+
+<section style="margin-top:2.5rem">
+  <h2 class="section-label">Reading</h2>
+  <ul class="entries" id="reading-list"></ul>
+</section>
+</main>
+
+<script>
+const photoFiles = ['photos/photo1.md'];
+const readingFiles = ['reading/book1.md'];
+
+function parseMeta(raw){
+  const lines = raw.trim().split('\n');
+  return {
+    title: lines[0].replace(/^#\s*/, ''),
+    meta: lines[1] || ''
+  };
+}
+
+async function init(){
+  const pgrid = document.getElementById('photos-list');
+  for (const path of photoFiles){
+    const id = path.replace('photos/', '').replace('.md', '');
+    const res = await fetch(path);
+    const { title, meta } = parseMeta(await res.text());
+    const div = document.createElement('a');
+    div.href = `photo.html?id=${id}`;
+    div.className = 'photo-item';
+    div.innerHTML = `<img src="images/${id}-thumb.jpg" alt="${title}" loading="lazy">`;
+    pgrid.appendChild(div);
+  }
+
+  const rlist = document.getElementById('reading-list');
+  for (const path of readingFiles){
+    const id = path.replace('reading/', '').replace('.md', '');
+    const res = await fetch(path);
+    const { title, meta } = parseMeta(await res.text());
+    const parts = meta.split('·').map(s => s.trim());
+    const author = parts.length > 1 ? parts[0] : '';
+    const date = parts.length > 1 ? parts[parts.length - 1] : meta;
+    const li = document.createElement('li');
+    const display = author ? `${title} — ${author}` : title;
+    li.innerHTML = `<a href="reading.html?id=${id}"><span>${display}</span><span class="date">${date}</span></a>`;
+    rlist.appendChild(li);
+  }
+}
+init();
+</script>
+
+</body>
+</html>

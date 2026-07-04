@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nasr</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<nav>
+  <div class="brand"><a href="/">nasr</a></div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+</header>
+
+<main class="site-main">
+<a class="back" href="blog.html">&larr; back to all posts</a>
+<article id="post"></article>
+</main>
+
+<script>
+function parseMd(raw){
+  const lines = raw.trim().split('\n');
+  let title = lines[0].replace(/^#\s*/, '');
+  let meta = lines[1] || '';
+  let topics = [];
+  let bodyStart = 2;
+  if (lines[2] && lines[2].startsWith('topics:')){
+    topics = lines[2].replace('topics:', '').split(',').map(t => t.trim()).filter(Boolean);
+    bodyStart = 3;
+  }
+  let body = lines.slice(bodyStart).join('\n').trim();
+  return { title, meta, topics, body };
+}
+
+async function init(){
+  const id = new URLSearchParams(location.search).get('id') || 'intro';
+  const el = document.getElementById('post');
+  try {
+    const res = await fetch(`blog/${id}.md`);
+    if (!res.ok) throw new Error('not found');
+    const { title, meta, topics, body } = parseMd(await res.text());
+    document.title = title + ' - nasribujang';
+    const topicsHtml = topics.length ? `<div class="topics">${topics.map(t => `<span class="topic">${t}</span>`).join('')}</div>` : '';
+    el.innerHTML = `
+      <h1>${title}</h1>
+      <span class="meta">${meta}</span>
+      ${topicsHtml}
+      ${body.split('\n').filter(l => l.trim()).map(p => `<p>${p}</p>`).join('')}
+    `;
+  } catch (e) {
+    el.innerHTML = `<p>Post not found.</p>`;
+  }
+}
+init();
+</script>
+
+</body>
+</html>

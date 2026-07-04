@@ -1,0 +1,92 @@
+``1 <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nasr</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<nav>
+  <div class="brand"><a href="/">nasr</a></div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+</header>
+
+<main class="site-main">
+  <div id="content"></div>
+</main>
+
+<script>
+const blogFiles = [
+  'blog/intro.md',
+  'blog/post1.md',
+  'blog/post2.md',
+  'blog/post3.md',
+  'blog/post4.md',
+  'blog/post5.md',
+  'blog/post6.md',
+  'blog/post7.md',
+];
+
+const topicMeta = {
+  philosophy: 'first principles, thinking, understanding',
+  technology: 'AI, software, tools, building',
+  culture: 'society, identity, meaning',
+  devlog: 'personal notes, process, reflection',
+};
+
+function parseMd(raw){
+  const lines = raw.trim().split('\n');
+  let title = lines[0].replace(/^#\s*/, '');
+  let meta = lines[1] || '';
+  let topics = [];
+  if (lines[2] && lines[2].startsWith('topics:')){
+    topics = lines[2].replace('topics:', '').split(',').map(t => t.trim()).filter(Boolean);
+  }
+  return { title, meta, topics };
+}
+
+async function init(){
+  const topic = new URLSearchParams(location.search).get('topic');
+  const container = document.getElementById('content');
+
+  const allPosts = [];
+  for (const path of blogFiles){
+    const id = path.replace('blog/', '').replace('.md', '');
+    const res = await fetch(path);
+    const { title, meta, topics } = parseMd(await res.text());
+    const parts = meta.split('·').map(s => s.trim());
+    const date = parts.length > 1 ? parts[parts.length - 1] : meta;
+    allPosts.push({ id, title, meta, date, topics });
+  }
+
+  if (topic && topicMeta[topic]){
+    document.title = topic + ' - nasr';
+    const filtered = allPosts.filter(p => p.topics.includes(topic));
+    let listHtml = filtered.length
+      ? filtered.map(p => `<li><a href="post.html?id=${p.id}"><span>${p.title}</span><span class="date">${p.date}</span></a></li>`).join('')
+      : '<li style="opacity:.5;padding:.8rem 0;border:none">No posts with this topic yet.</li>';
+    container.innerHTML = `
+      <h1>${topic}</h1>
+      <p class="tagline">${topicMeta[topic]}</p>
+      <ul class="entries">${listHtml}</ul>
+      <p style="margin-top:1.5rem"><a href="blog.html" class="back">&larr; all posts</a></p>
+    `;
+  } else {
+    const listHtml = allPosts.map(p =>
+      `<li><a href="post.html?id=${p.id}"><span>${p.title}</span><span class="date">${p.date}</span></a></li>`
+    ).join('');
+    container.innerHTML = `<h1>Blog</h1><ul class="entries">${listHtml}</ul>`;
+  }
+}
+init();
+</script>
+
+</body>
+</html>

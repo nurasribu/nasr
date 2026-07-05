@@ -1,4 +1,4 @@
-``1 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -35,10 +35,11 @@ const blogFiles = [
 ];
 
 const topicMeta = {
-  philosophy: 'first principles, thinking, understanding',
-  technology: 'AI, software, tools, building',
-  culture: 'society, identity, meaning',
-  devlog: 'personal notes, process, reflection',
+  philosophy:      { name: 'personal philosophy',      desc: 'first principles, thinking, understanding' },
+  technology:      { name: 'technology and AI',         desc: 'AI, software, tools, building' },
+  culture:         { name: 'culture and politics',      desc: 'Islam, Sarawak, Malay Identity, Malaysia' },
+  mentalmodes:     { name: 'mental modes',              desc: 'observation, theory, reflections' },
+  fiction:         { name: 'fiction',                   desc: 'poems, short fiction, scripts, manuscripts' },
 };
 
 function parseMd(raw){
@@ -66,15 +67,29 @@ async function init(){
     allPosts.push({ id, title, meta, date, topics });
   }
 
-  if (topic && topicMeta[topic]){
-    document.title = topic + ' - nasr';
+  if (topic === 'timetravel'){
+    document.title = 'Time Travel Series - nasr';
+    const filtered = allPosts.filter(p => p.topics.includes(topic));
+    let listHtml = filtered.length
+      ? filtered.map(p => `<li><a href="post.html?id=${p.id}"><span>${p.title}</span><span class="date">${p.date}</span></a></li>`).join('')
+      : '<li style="opacity:.5;padding:.8rem 0;border:none">No posts in this series yet.</li>';
+    container.innerHTML = `
+      <p class="series-label">Series</p>
+      <h1>Time Travel Series</h1>
+      <p class="tagline">Come with me! We'll test the same subjects across different eras and see how the meaning morph</p>
+      <ul class="entries">${listHtml}</ul>
+      <p style="margin-top:1.5rem"><a href="blog.html" class="back">&larr; all posts</a></p>
+    `;
+  } else if (topic && topicMeta[topic]){
+    const meta = topicMeta[topic];
+    document.title = meta.name + ' - nasr';
     const filtered = allPosts.filter(p => p.topics.includes(topic));
     let listHtml = filtered.length
       ? filtered.map(p => `<li><a href="post.html?id=${p.id}"><span>${p.title}</span><span class="date">${p.date}</span></a></li>`).join('')
       : '<li style="opacity:.5;padding:.8rem 0;border:none">No posts with this topic yet.</li>';
     container.innerHTML = `
-      <h1>${topic}</h1>
-      <p class="tagline">${topicMeta[topic]}</p>
+      <h1>${meta.name}</h1>
+      <p class="tagline">${meta.desc}</p>
       <ul class="entries">${listHtml}</ul>
       <p style="margin-top:1.5rem"><a href="blog.html" class="back">&larr; all posts</a></p>
     `;

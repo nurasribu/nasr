@@ -1,5 +1,5 @@
 # Title
 Blog · Month Year
-topics: topic1, topic2
+topics: philosophy, technology, culture, mentalmodes, fiction, timetravel
 
 -write here-

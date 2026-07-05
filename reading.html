@@ -43,7 +43,7 @@ async function init(){
     el.innerHTML = `
       <h1>${title}</h1>
       <span class="meta">${meta}</span>
-      ${body.split('\n').filter(l => l.trim()).map(p => `<p>${p}</p>`).join('')}
+      ${body.split('\n').filter(l => l.trim()).map(l => l.startsWith('> ') ? `<blockquote>${l.slice(2)}</blockquote>` : `<p>${l}</p>`).join('')}
     `;
   } catch (e) {
     el.innerHTML = `<p>Not found.</p>`;

@@ -35,7 +35,7 @@
     <dt class="topic-name"><a href="blog.html?topic=fiction">fiction</a></dt>
     <dd class="topic-desc">poems, short fiction, scripts, manuscripts</dd>
   </dl>
-  <p style="margin-top:.5rem"><a href="blog.html" class="back" style="font-size:.8rem">&rarr; all posts</a></p>
+  <p style="margin-top:.5rem"><a href="blog.html" class="back" style="font-size:.8rem">&rarr; all writings</a></p>
 </section>
 
 <section style="margin-top:2.5rem">
@@ -54,6 +54,14 @@
 <section style="margin-top:2.5rem">
   <h2 class="section-label">Reading</h2>
   <ul class="entries" id="reading-list"></ul>
+</section>
+
+<section style="margin-top:2.5rem">
+  <h2 class="section-label">Quotes</h2>
+  <details style="margin-top:.5rem">
+    <summary style="cursor:pointer;opacity:.6;font-size:.875rem;font-family:var(--font-sans);user-select:none">show quotes</summary>
+    <div id="quotes-content" style="margin-top:.5rem"></div>
+  </details>
 </section>
 </main>
 
@@ -95,6 +103,15 @@ async function init(){
     li.innerHTML = `<a href="reading.html?id=${id}"><span>${display}</span><span class="date">${date}</span></a>`;
     rlist.appendChild(li);
   }
+
+const qel = document.getElementById('quotes-content');
+  const qres = await fetch('quotes/quotes.md');
+  const qtext = await qres.text();
+  const blocks = qtext.trim().split('\n\n');
+  qel.innerHTML = blocks.map(block => {
+    const lines = block.split('\n').map(l => l.replace(/^>\s?/, ''));
+    return '<blockquote>' + lines.join('<br>') + '</blockquote>';
+  }).join('');
 }
 init();
 </script>

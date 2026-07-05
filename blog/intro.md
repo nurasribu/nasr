@@ -1,6 +1,6 @@
-# My Dev Log Intro
+# Intro
 Homepage · June 2026
-topics: philosophy, devlog
+topics: philosophy
 
 Here lies all the thinking that went into my work. Here you will find all the philosophies that shaped my action, and hopefully this online page will bear witness to what I am building. It is very important that we understand the things we truly cultivate is culture, and other things are just tools.
 

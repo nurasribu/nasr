@@ -31,6 +31,7 @@ header{
   padding:0 1rem 3.5rem 1rem;
 }
 nav{
+  background:rgba(26,0,3,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
   display:flex;gap:1rem;flex-flow:row nowrap;justify-content:flex-start;
   align-items:flex-end;height:2.4rem;
   border-bottom:1px solid #edf6d6;
@@ -118,6 +119,21 @@ article .topic{
   padding:.08em .5em;text-decoration:none;
 }
 article p{font-size:1.125rem;line-height:1.6;margin-bottom:1.2rem}
+.signal-list{list-style:none;padding:0;margin:1.5rem 0}
+.signal-list li{padding:.5rem 0;border-bottom:1px solid rgba(240,246,240,.1);font-size:1.125rem;line-height:1.5}
+.signal-list li:first-child{border-top:1px solid rgba(240,246,240,.1)}
+.sig-bullet{color:#7a0000;margin-right:.75rem;font-size:.9rem}
+blockquote{
+  padding:.5rem .75rem .5rem 1.25rem;margin:1.5rem 0;font-size:1.25rem;font-style:italic;opacity:.9;line-height:1.6;
+  border-left:0;position:relative;
+  background:linear-gradient(90deg,rgba(122,0,0,.25) 0%,transparent 100%);
+  border-radius:0 4px 4px 0;
+}
+blockquote::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,#7a0000,#d4c47a,#7a0000);
+  border-radius:2px;
+}
 footer{grid-area:footer;text-align:center;margin:4ex 0 8ex;opacity:.5;font-size:.875rem;font-family:var(--font-sans)}
 @media(max-width:40rem){
   body{

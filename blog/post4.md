@@ -1,7 +1,20 @@
-# Labour etc.
+# understanding thyself
 Blog · July 2026
-topics: devlog, culture
+topics: mentalmodes
 
-Exciting year, exciting time really. I am moving faster than I thought I could. In the end the roadblock that you have to get through is yourself. It always seems like other people are in your way, but that is only true if you let it. In the end, people would just give out their opinion, how much weight you put on these opinions should vary. A rule of thumb would be, think of your trajectory. The trajectory must be kept in tact despite anything that other people say. It's okay to sway left or right, but make sure the destination is still in sight.
+Probably my way of thinking; very indie.
+Indie in the spirit of things, methods, achievements, success. Indie in the approach of wisdom, love, innovation and temperaments.
 
-There are more rules like learn, show up, do exercise - everyday. Non-negotiables. The fruit of our labour will not betray us.
+I wish to make amazing things with what I have, without needing much money. I do not wish money to make me. A brand new idea is important to me. It has to be strong and sound, interactive and interesting.
+
+When you are on the run for refining, creating something better, of a well established concept, you have to spend more, on gear, technicality and your probability is, as many as people doing the same thing as you. If you strip away everything, there is no chance for you to fight. 
+
+A road less traveled, give way to discovery. A discovery people had overlooked. The place where people don't seek, there's my truth. It could not be any other one's truth because, they were not there. Therefore this long road I travelled could not be a mistake. Could not have been. It could if I don't make my discovery known. It is viable. With this, this torch that I am holding, I couldn't do it alone. But I have no choice.
+
+Until similar like minded people come into my life, probably more skilled, probably more hungry, probably smarter, more technical than me, I would have to do this alone. I am inviting, invite for collaboration. My budget? My idea. Follow me for your ideals and not the money. The money will come. 
+
+Steve Jobs would probably not be who he is today, if it wasn't for his team. He had a vision, and everyone followed.
+
+---
+edit: Um nvm. I figured it out. I am what I am. A visionary, revolutionary. I am the first. I want to have a global dialogue.
+

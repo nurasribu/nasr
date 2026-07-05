@@ -62,14 +62,19 @@ async function init(){
   const topic = new URLSearchParams(location.search).get('topic');
   const container = document.getElementById('content');
 
-  const allPosts = [];
-  for (const path of blogFiles){
-    const id = path.replace('blog/', '').replace('.md', '');
-    const res = await fetch(path);
-    const { title, meta, topics } = parseMd(await res.text());
-    const parts = meta.split('·').map(s => s.trim());
-    const date = parts.length > 1 ? parts[parts.length - 1] : meta;
-    allPosts.push({ id, title, meta, date, topics });
+  let allPosts;
+  const cached = sessionStorage.getItem('blogCache');
+  if (cached){
+    allPosts = JSON.parse(cached);
+  } else {
+    allPosts = await Promise.all(blogFiles.map(async (path) => {
+      const id = path.replace('blog/', '').replace('.md', '');
+      const res = await fetch(path);
+      const { title, meta, topics } = parseMd(await res.text());
+      const parts = meta.split('·').map(s => s.trim());
+      const date = parts.length > 1 ? parts[parts.length - 1] : meta;
+      return { id, title, meta, date, topics };
+    }));
   }
 
   if (topic === 'timetravel'){

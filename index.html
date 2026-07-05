@@ -112,6 +112,34 @@ const qel = document.getElementById('quotes-content');
     const lines = block.split('\n').map(l => l.replace(/^>\s?/, ''));
     return '<blockquote>' + lines.join('<br>') + '</blockquote>';
   }).join('');
+
+  // prefetch blog posts in background for instant blog.html
+  setTimeout(() => {
+    if (!sessionStorage.getItem('blogCache')){
+      const blogFiles = [
+        'blog/intro.md','blog/post1.md','blog/post2.md',
+        'blog/post3.md','blog/post4.md','blog/post5.md',
+        'blog/post6.md','blog/post7.md','blog/post8.md',
+        'blog/post9.md','blog/post10.md','blog/post12.md',
+      ];
+      Promise.all(blogFiles.map(async (path) => {
+        const id = path.replace('blog/', '').replace('.md', '');
+        const res = await fetch(path);
+        const lines = (await res.text()).trim().split('\n');
+        const title = lines[0].replace(/^#\s*/, '');
+        const meta = lines[1] || '';
+        let topics = [];
+        if (lines[2] && lines[2].startsWith('topics:')){
+          topics = lines[2].replace('topics:', '').split(',').map(t => t.trim()).filter(Boolean);
+        }
+        const parts = meta.split('·').map(s => s.trim());
+        const date = parts.length > 1 ? parts[parts.length - 1] : meta;
+        return { id, title, meta, date, topics };
+      })).then(posts => {
+        sessionStorage.setItem('blogCache', JSON.stringify(posts));
+      });
+    }
+  }, 1000);
 }
 init();
 </script>

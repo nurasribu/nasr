@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>N4SR</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+<nav>
+  <div class="brand"><a href="/">N4SR</a></div>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+</header>
+
+<main class="site-main">
+<a class="back" href="/">&larr; back</a>
+<div id="content"></div>
+</main>
+
+<script>
+const readingFiles = [
+  'reading/book1.md',
+  'reading/create-dangerously.md',
+  'reading/apple-revolution.md',
+  'reading/letters-to-a-disciple.md',
+  'reading/letters-to-a-young-poet.md',
+  'reading/essential-rumi.md',
+  'reading/1984.md',
+  'reading/keep-the-aspidistra-flying.md',
+  'reading/the-lean-startup.md',
+  'reading/the-society-of-spectacle.md',
+];
+
+function parseRaw(raw){
+  const lines = raw.trim().split('\n');
+  return {
+    title: lines[0].replace(/^#\s*/, ''),
+    meta: lines[1] || ''
+  };
+}
+
+async function init(){
+  const container = document.getElementById('content');
+  const entries = await Promise.all(readingFiles.map(async (path) => {
+    const id = path.replace('reading/', '').replace('.md', '');
+    const res = await fetch(path);
+    const { title, meta } = parseRaw(await res.text());
+    const parts = meta.split('·').map(s => s.trim());
+    const author = parts.length > 1 ? parts[0] : '';
+    const date = parts.length > 1 ? parts[parts.length - 1] : meta;
+    return { id, title, author, date };
+  }));
+  const listHtml = entries.map(e =>
+    `<li><a href="reading.html?id=${e.id}"><span>${e.title}${e.author ? ' — ' + e.author : ''}</span><span class="date">${e.date}</span></a></li>`
+  ).join('');
+  container.innerHTML = `<h1>Reading List</h1><ul class="entries">${listHtml}</ul>`;
+}
+init();
+</script>
+
+</body>
+</html>

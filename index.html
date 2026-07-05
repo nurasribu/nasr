@@ -46,14 +46,17 @@
   </dl>
 </section>
 
+<!--
 <section style="margin-top:2.5rem">
   <h2 class="section-label">Photos</h2>
   <div class="photo-grid" id="photos-list"></div>
 </section>
+-->
 
 <section style="margin-top:2.5rem">
   <h2 class="section-label">Reading</h2>
   <ul class="entries" id="reading-list"></ul>
+  <p style="margin-top:.5rem"><a href="readings.html" class="back" style="font-size:.8rem">&rarr; all reading list</a></p>
 </section>
 
 <section style="margin-top:2.5rem">
@@ -67,7 +70,7 @@
 
 <script>
 const photoFiles = ['photos/photo1.md'];
-const readingFiles = ['reading/book1.md'];
+const readingFiles = ['reading/book1.md','reading/create-dangerously.md','reading/apple-revolution.md','reading/the-society-of-spectacle.md','reading/letters-to-a-young-poet.md'];
 
 function parseMeta(raw){
   const lines = raw.trim().split('\n');
@@ -78,6 +81,7 @@ function parseMeta(raw){
 }
 
 async function init(){
+  /*
   const pgrid = document.getElementById('photos-list');
   for (const path of photoFiles){
     const id = path.replace('photos/', '').replace('.md', '');
@@ -89,15 +93,19 @@ async function init(){
     div.innerHTML = `<img src="images/${id}-thumb.jpg" alt="${title}" loading="lazy">`;
     pgrid.appendChild(div);
   }
+  */
 
   const rlist = document.getElementById('reading-list');
-  for (const path of readingFiles){
+  const readingEntries = await Promise.all(readingFiles.map(async (path) => {
     const id = path.replace('reading/', '').replace('.md', '');
     const res = await fetch(path);
     const { title, meta } = parseMeta(await res.text());
     const parts = meta.split('·').map(s => s.trim());
     const author = parts.length > 1 ? parts[0] : '';
     const date = parts.length > 1 ? parts[parts.length - 1] : meta;
+    return { id, title, author, date };
+  }));
+  for (const { id, title, author, date } of readingEntries){
     const li = document.createElement('li');
     const display = author ? `${title} — ${author}` : title;
     li.innerHTML = `<a href="reading.html?id=${id}"><span>${display}</span><span class="date">${date}</span></a>`;

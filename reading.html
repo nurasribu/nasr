@@ -33,7 +33,7 @@ function parseMd(raw){
 }
 
 async function init(){
-  const id = new URLSearchParams(location.search).get('id') || 'book1';
+  const id = new URLSearchParams(location.search).get('id'); if (!id) { window.location.replace('readings.html'); return; }
   const el = document.getElementById('entry');
   try {
     const res = await fetch(`reading/${id}.md`);
@@ -43,7 +43,21 @@ async function init(){
     el.innerHTML = `
       <h1>${title}</h1>
       <span class="meta">${meta}</span>
-      ${body.split('\n').filter(l => l.trim()).map(l => l.startsWith('> ') ? `<blockquote>${l.slice(2)}</blockquote>` : `<p>${l}</p>`).join('')}
+      ${(() => {
+        const lines = body.split('\n').filter(l => l.trim());
+        let html = '', inBlock = false;
+        for (const l of lines) {
+          if (l.startsWith('> ')) {
+            if (!inBlock) { html += '<blockquote>'; inBlock = true; }
+            html += l.slice(2) + ' ';
+          } else {
+            if (inBlock) { html += '</blockquote>'; inBlock = false; }
+            html += '<p>' + l + '</p>';
+          }
+        }
+        if (inBlock) html += '</blockquote>';
+        return html;
+      })()}
     `;
   } catch (e) {
     el.innerHTML = `<p>Not found.</p>`;

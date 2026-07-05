@@ -1,6 +1,6 @@
 # Mindset shift, I think?
 Blog · July 2026
-topics: devlog, culture
+topics: philosophy, mentalmodes
 
 I am not that interesting, and so is other people. Maybe I am, but I guess its good to not take yourself too seriously and other people too seriously too.
 

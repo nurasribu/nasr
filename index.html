@@ -126,9 +126,10 @@ const qel = document.getElementById('quotes-content');
     if (!sessionStorage.getItem('blogCache')){
       const blogFiles = [
         'blog/intro.md','blog/post1.md','blog/post2.md',
-        'blog/post3.md','blog/post4.md','blog/post5.md',
-        'blog/post6.md','blog/post7.md','blog/post8.md',
-        'blog/post9.md','blog/post10.md','blog/post12.md',
+        'blog/post4.md','blog/post5.md','blog/post6.md',
+        'blog/post9.md','blog/post10.md','blog/post13.md',
+        'blog/post3.md','blog/post7.md','blog/post8.md',
+        'blog/post12.md',
       ];
       Promise.all(blogFiles.map(async (path) => {
         const id = path.replace('blog/', '').replace('.md', '');

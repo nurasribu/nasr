@@ -56,14 +56,17 @@ The blog post list appears in **two places** that must stay in sync:
 
 ## Post ordering
 
-Posts in `blogFiles` are sorted newest to oldest by date. The `intro.md` post is pinned at the top regardless of date.
+1. `intro.md` — pinned at top
+2. `post13.md` — latest addition (July 2026)
+3. Remaining posts — sorted newest to oldest by date
 
 Current order (as of July 2026):
 
 | Posts | Date |
 |-------|------|
-| intro | June 2026 |
-| post1, post2, post4, post5, post6, post9, post10, post13 | July 2026 |
+| intro | June 2026 (pinned) |
+| post13 | July 2026 (latest) |
+| post1, post2, post4, post5, post6, post9, post10 | July 2026 |
 | post3 | June 2025 |
 | post7 | July 2025 |
 | post8, post12 | May 2025 |
